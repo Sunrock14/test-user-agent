@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Tarayıcı Bilgisi</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kullanıcı Tarayıcı Bilgisi</h1>
+    <table id="userAgentTable">
+        <tr>
+            <th>Özellik</th>
+            <th>Değer</th>
+        </tr>
+    </table>
+
+    <script>
+        manipulateBrowserInfo('Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1',375,812);
+        window.onload = createTable;
+
+        function manipulateBrowserInfo(newUserAgent, newWidth, newHeight) {
+            Object.defineProperty(navigator, 'userAgent', {
+                get: function () { return newUserAgent; }
+            });
+            Object.defineProperty(screen, 'width', {
+                get: function () { return newWidth; }
+            });
+            Object.defineProperty(screen, 'height', {
+                get: function () { return newHeight; }
+            });
+            Object.defineProperty(window, 'innerWidth', {
+                get: function () { return newWidth; }
+            });
+            Object.defineProperty(window, 'innerHeight', {
+                get: function () { return newHeight; }
+            });
+            Object.defineProperty(window, 'outerWidth', {
+                get: function () { return newWidth; }
+            });
+            Object.defineProperty(window, 'outerHeight', {
+                get: function () { return newHeight; }
+            });
+            }          
+        function createTable() {
+            var userAgent = navigator.userAgent;
+            var table = document.getElementById("userAgentTable");
+            var ozellikler = [
+                { ad: "Tarayıcı Bilgisi", deger: userAgent },
+                { ad: "Platform", deger: navigator.platform },
+                { ad: "Dil", deger: navigator.language },
+                { ad: "Çerezler Etkin", deger: navigator.cookieEnabled },
+                { ad: "Ekran Genişliği", deger: window.screen.width + "px" },
+                { ad: "Ekran Yüksekliği", deger: window.screen.height + "px" },
+                { ad: "Renk Derinliği", deger: window.screen.colorDepth + " bit" }
+            ];
+
+            ozellikler.forEach(function(ozellik) {
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.textContent = ozellik.ad;
+                cell2.textContent = ozellik.deger;
+            });
+
+            // IP adresini almak için bir AJAX isteği yapıyoruz
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.ipify.org?format=json', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var row = table.insertRow(-1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.textContent = "IP Adresi";
+                    cell2.textContent = response.ip;
+                }
+            };
+            xhr.send();
+        }
+        console.log();
+        console.info(Object.xhr());
+    </script>
+</body>
+</html>
