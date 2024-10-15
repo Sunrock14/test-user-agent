@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,20 @@
             border-collapse: collapse;
             width: 100%;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
     </style>
 </head>
+
 <body>
     <h1>Kullanıcı Tarayıcı Bilgisi</h1>
     <table id="userAgentTable">
@@ -29,12 +34,15 @@
     </table>
 
     <script>
-        manipulateBrowserInfo('Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1',375,812);
+        manipulateBrowserInfo('Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1', 375, 812);
         window.onload = createTable;
 
         function manipulateBrowserInfo(newUserAgent, newWidth, newHeight) {
             Object.defineProperty(navigator, 'userAgent', {
                 get: function () { return newUserAgent; }
+            });
+            Object.defineProperty(navigator, 'platform', {
+                get: function () { return 'iPhone'; }
             });
             Object.defineProperty(screen, 'width', {
                 get: function () { return newWidth; }
@@ -54,7 +62,11 @@
             Object.defineProperty(window, 'outerHeight', {
                 get: function () { return newHeight; }
             });
-            }          
+            Object.defineProperty(window, 'devicePixelRatio', {
+                get: function () { return 2; } // iPhone has a device pixel ratio of 2  
+            });
+        }
+
         function createTable() {
             var userAgent = navigator.userAgent;
             var table = document.getElementById("userAgentTable");
@@ -68,7 +80,7 @@
                 { ad: "Renk Derinliği", deger: window.screen.colorDepth + " bit" }
             ];
 
-            ozellikler.forEach(function(ozellik) {
+            ozellikler.forEach(function (ozellik) {
                 var row = table.insertRow(-1);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -79,7 +91,7 @@
             // IP adresini almak için bir AJAX isteği yapıyoruz
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'https://api.ipify.org?format=json', true);
-            xhr.onload = function() {
+            xhr.onload = function () {
                 if (xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     var row = table.insertRow(-1);
@@ -96,11 +108,12 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M5MM6G70X"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'G-4M5MM6G70X');
+        gtag('config', 'G-4M5MM6G70X');
     </script>
 </body>
+
 </html>
