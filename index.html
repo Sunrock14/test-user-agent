@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -120,6 +120,100 @@
         }
         console.log();
     </script>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Tarayıcı Bilgisi (Mobil Simülasyonu)</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kullanıcı Tarayıcı Bilgisi (Mobil Simülasyonu)</h1>
+    <table id="userAgentTable">
+        <tr>
+            <th>Özellik</th>
+            <th>Değer</th>
+        </tr>
+    </table>
+
+    <script>
+        // Mobil cihaz özelliklerini tanımla
+        const mobileDevice = {
+            userAgent: "Mozilla/5.0 (Linux; Android 10; SM-G960U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
+            platform: "Linux armv8l",
+            vendor: "Google Inc.",
+            language: "tr-TR",
+            onLine: true,
+            cookieEnabled: true,
+            doNotTrack: null,
+            maxTouchPoints: 5,
+            hardwareConcurrency: 8
+        };
+
+        // Navigator nesnesini geçersiz kıl
+        Object.keys(mobileDevice).forEach(key => {
+            Object.defineProperty(navigator, key, {
+                get: () => mobileDevice[key]
+            });
+        });
+
+        // screen nesnesini geçersiz kıl
+        Object.defineProperty(window, 'screen', {
+            get: () => ({
+                width: 360,
+                height: 640,
+                colorDepth: 24,
+                pixelDepth: 24,
+                availWidth: 360,
+                availHeight: 640
+            })
+        });
+
+        // Tarayıcı bilgilerini tabloya ekle
+        const table = document.getElementById('userAgentTable');
+        const properties = [
+            { name: 'User Agent', value: navigator.userAgent },
+            { name: 'Platform', value: navigator.platform },
+            { name: 'Vendor', value: navigator.vendor },
+            { name: 'Language', value: navigator.language },
+            { name: 'Çevrimiçi', value: navigator.onLine },
+            { name: 'Çerezler Etkin', value: navigator.cookieEnabled },
+            { name: 'Do Not Track', value: navigator.doNotTrack },
+            { name: 'Ekran Genişliği', value: screen.width },
+            { name: 'Ekran Yüksekliği', value: screen.height },
+            { name: 'Max Dokunma Noktası', value: navigator.maxTouchPoints },
+            { name: 'Donanım Eşzamanlılığı', value: navigator.hardwareConcurrency }
+        ];
+
+        properties.forEach(prop => {
+            const row = table.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            cell1.textContent = prop.name;
+            cell2.textContent = prop.value;
+        });
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M5MM6G70X"></script>
     <script>
@@ -130,5 +224,4 @@
         gtag('config', 'G-4M5MM6G70X');
     </script>
 </body>
-
 </html>
